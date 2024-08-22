@@ -2,7 +2,10 @@
 
 namespace App\Http;
 
+use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
+use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Log;
 
 class Kernel extends HttpKernel
 {
@@ -40,7 +43,7 @@ class Kernel extends HttpKernel
 
         'api' => [
             // \Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful::class,
-            \Illuminate\Routing\Middleware\ThrottleRequests::class.':api',
+            \Illuminate\Routing\Middleware\ThrottleRequests::class . ':api',
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
         ],
     ];
@@ -65,4 +68,32 @@ class Kernel extends HttpKernel
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'role' => \App\Http\Middleware\CheckUserRole::class
     ];
+
+    protected function schedule(Schedule $schedule): void
+    {
+        $schedule->command(command: 'SendCartReminders')->daily();
+        $schedule->command('command: Send PromotionalEmails')->weeklyon(1, time: '8:00');
+        $schedule->command('command: CleanOldRecords')->monthly();
+        $schedule->command('Command: SendCartReminders')->daily()->withoutOverlapping();
+        $schedule->command('command: FirstTask')->daily()->then(callback: function () {
+            Artisan::call(command: 'SecondTask');
+        });
+        $schedule->command(command: 'command: SendCartReminders')->daily()->onQueue('emails');
+        $schedule->command( command: 'command: sendEmails')->daily()->onSuccess(callback: function () {
+            Log::info('Emails sent successfully.');
+        })
+        ->onFailure( function () {
+         Log::error(message: 'Failed to send emails.');
+            });
+        $schedule->command(command: 'command: sendEmails')->dailyAt( '14:00')->timezone ( 'Asia/Damascus');
+        $schedule->command( 'command: cleanupOldFiles')->daily()->appendOutputTo( '/path/to/output.log');
+        $schedule->command('command: optimizeDatabase')->daily()->before( callback: function () {
+        Log::info( message: 'Starting database optimization.');
+})
+        ->after (function () {
+    Log::info ( 'Finished database optimization.');
+});
+        $schedule->command('command generateReports')->daily()->runInBackground();
+
+    }
 }

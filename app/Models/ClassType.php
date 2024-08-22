@@ -9,7 +9,8 @@ class ClassType extends Model
 {
     use HasFactory;
 
-    public function scheduledClasses() {
+    public function scheduledClasses(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
         return $this->hasMany(ScheduledClass::class);
     }
 }

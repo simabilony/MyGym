@@ -13,7 +13,7 @@ class ApiResponseService
      *
      *
      */
-    public static function success(mixed $data=null, string $message='opr succ', int $status=200)
+    public static function success(mixed $data=null, string $message='opr succ', int $status=200): \Illuminate\Http\JsonResponse
     {
 return response()->json([
       "status"=>'success',
@@ -29,7 +29,7 @@ return response()->json([
      *
      *
      */
-    public static function error($message='opr fail',$status=400,$data=null)
+    public static function error($message='opr fail',$status=400,$data=null): \Illuminate\Http\JsonResponse
     {
         return response()->json([
             "status"=>'success',
@@ -52,13 +52,13 @@ return response()->json([
             'status' => 'success',
              'message' => trans(key: $message),
 
-'data' => $paginator->items(),
-'pagination'=>[
-'total' => $paginator->total(),
-    'count' => $paginator->count(),
-'per_page' => $paginator->perPage(),
-'current_page' => $paginator->currentPage(),
-'total_pages' => $paginator->lastPage(),
+        'data' => $paginator->items(),
+        'pagination'=>[
+        'total' => $paginator->total(),
+            'count' => $paginator->count(),
+        'per_page' => $paginator->perPage(),
+        'current_page' => $paginator->currentPage(),
+        'total_pages' => $paginator->lastPage(),
 
 ],
 ], $status);}

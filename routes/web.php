@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ScheduledClassController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,6 +18,10 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+ Route::resource('/instructor/schedule', ScheduledClassController::class)
+     ->only(['index','create','store','destroy'])
+     ->middleware(['auth', 'role:instructor']);
+
 
 Route::get('/dashboard', function () {
     return view('dashboard');

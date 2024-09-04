@@ -7,7 +7,8 @@ use Illuminate\Http\Request;
 
 class BookingController extends Controller
 {
-    public function create() {
+    public function create(): \Illuminate\Contracts\View\View|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\Foundation\Application
+    {
         $scheduledClasses = ScheduledClass::upcoming()
             ->with('classType', 'instructor')
             ->notBooked()

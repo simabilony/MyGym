@@ -12,7 +12,8 @@
         "laravel/telescope": "^5.1",
         "laravel/tinker": "^2.8",
         "php-open-source-saver/jwt-auth": "^2.3",
-        "spatie/laravel-permission": "^6.9"
+        "spatie/laravel-permission": "^6.9",
+        "stripe/stripe-php": "^15.8"
     },
     "require-dev": {
         "fakerphp/faker": "^1.9.1",

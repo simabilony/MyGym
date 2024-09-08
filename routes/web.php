@@ -45,4 +45,10 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
+Route::get('orders/{order}/pay',[\App\Http\Controllers\Front\PaymentsController::class,'create'])->name('orders.payments.create');
+Route::post('orders/{order}/stripe/payment-intent',[\App\Http\Controllers\Front\PaymentsController::class,'createStripePaymentIntent'])->name('stripe.paymentIntent.create');
+
+Route::get('orders/{order}/pay/stripe/callback',[\App\Http\Controllers\Front\PaymentsController::class,'confirm'])->name('stripe.return');
+
+
 require __DIR__.'/auth.php';

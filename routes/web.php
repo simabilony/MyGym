@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ScheduledClassController;
+use App\Http\Controllers\StripeWebhookController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -50,5 +51,6 @@ Route::post('orders/{order}/stripe/payment-intent',[\App\Http\Controllers\Front\
 
 Route::get('orders/{order}/pay/stripe/callback',[\App\Http\Controllers\Front\PaymentsController::class,'confirm'])->name('stripe.return');
 
+Route::any('stripe/webhook',[\App\Http\Controllers\StripeWebhooksController::class,'handle']);
 
 require __DIR__.'/auth.php';
